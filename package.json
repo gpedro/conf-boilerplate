@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "deploy": "node metalsmith deploy",
-    "generate": "node metalsmith generate",
-    "watch": "node metalsmith watch"
+    "deploy": "gulp deploy",
+    "generate": "gulp build",
+    "watch": "gulp watch"
   },
   "dependencies": {
     "browser-sync": "^2.6.4",
