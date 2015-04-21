@@ -39,20 +39,6 @@ metalsmith
     pattern: '*.html'
   }));
 
-/* Watch
-   ========================================================================== */
-
-if (task === 'watch') {
-  metalsmith
-    .use(plugins.serve({
-      port: 9778,
-      verbose: true
-    }))
-    .use(plugins.watch({
-      pattern: 'src/**/*'
-    }));
-}
-
 /* Build & Deploy
    ========================================================================== */
 
