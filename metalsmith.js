@@ -7,6 +7,30 @@ var conf       = require('./conference');
 var chalk      = require('chalk');
 var ghpages    = require('gh-pages');
 var prettytime = require('pretty-hrtime');
+var watch      = require('simple-recursive-watch');
+
+/* Actions
+   ========================================================================== */
+var build = function(task) {
+metalsmith
+  .build(function(err) {
+    if (err) {
+      throw err;
+    }
+    else {
+      if (task === 'generate') {
+        var end = prettytime(process.hrtime(start));
+        console.log('> done in ' + chalk.green(end));
+      }
+
+      if (task === 'deploy') {
+        ghpages.publish('out', function(err) {
+          if (err) throw err;
+        });
+      }
+    }
+  });
+}
 
 /* Config
    ========================================================================== */
@@ -47,30 +71,13 @@ if (task === 'watch') {
     .use(plugins.serve({
       port: 9778,
       verbose: true
-    }))
-    .use(plugins.watch({
-      pattern: 'src/**/*'
     }));
+
+  watch('src', '*', function () {
+    build('generate');
+  });
 }
 
 /* Build & Deploy
    ========================================================================== */
-
-metalsmith
-  .build(function(err) {
-    if (err) {
-      throw err;
-    }
-    else {
-      if (task === 'generate') {
-        var end = prettytime(process.hrtime(start));
-        console.log('> done in ' + chalk.green(end));
-      }
-
-      if (task === 'deploy') {
-        ghpages.publish('out', function(err) {
-          if (err) throw err;
-        });
-      }
-    }
-  });
+build(task);
