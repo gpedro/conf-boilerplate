@@ -49,7 +49,9 @@ if (task === 'watch') {
       verbose: true
     }))
     .use(plugins.watch({
-      paths: 'src/**/*',
+      paths: {
+        'src/**/*': '**/*' // RTFM
+      },
       livereload: true
     }));
 }
